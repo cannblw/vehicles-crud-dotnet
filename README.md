@@ -1,3 +1,3 @@
-# VEHICLES TEST - .NET + REACT
+# VEHICLES TEST - .NET
 
-Simple API created with .NET 6 consumed by a React client.
+Simple CRUD API created with .NET 6.
