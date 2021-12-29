@@ -2,6 +2,6 @@ namespace VehiclesTest.Config
 {
     public class DatabaseConfig
     {
-        public string FileName { get; set; }
+        public string ConnectionString { get; set; }
     }
 }
