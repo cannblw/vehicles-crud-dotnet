@@ -5,8 +5,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using VehiclesTest.Actions;
 using VehiclesTest.Database;
 using VehiclesTest.Dto;
+using VehiclesTest.Models;
 
 namespace VehiclesTest.Controllers
 {
@@ -35,6 +37,26 @@ namespace VehiclesTest.Controllers
             
             var vehicles = await _context.Vehicles.ToListAsync();
             var vehicleDetails = _mapper.Map<IEnumerable<VehicleDetails>>(vehicles);
+            
+            return vehicleDetails;
+        }
+        
+        [HttpPost]
+        public async Task<VehicleDetails> CreateVehicle([FromBody] CreateVehicleAction action)
+        {
+            _logger.LogInformation($"Creating vehicle with license plate {action.LicencePlate}");
+            
+            var vehicle = new Vehicle(
+                action.OrderNumber,
+                action.Vin,
+                action.Model,
+                action.LicencePlate,
+                action.DeliveryDate);
+
+            _context.Vehicles.Add(vehicle);
+            await _context.SaveChangesAsync();
+
+            var vehicleDetails = _mapper.Map<VehicleDetails>(vehicle);
             
             return vehicleDetails;
         }
