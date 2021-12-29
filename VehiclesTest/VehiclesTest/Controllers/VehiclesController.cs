@@ -31,18 +31,18 @@ namespace VehiclesTest.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<VehicleDetails>> GetVehicles()
+        public async Task<ActionResult<IEnumerable<VehicleDetails>>> GetVehicles()
         {
             _logger.LogInformation("Getting vehicles");
             
             var vehicles = await _context.Vehicles.ToListAsync();
             var vehicleDetails = _mapper.Map<IEnumerable<VehicleDetails>>(vehicles);
             
-            return vehicleDetails;
+            return Ok(vehicleDetails);
         }
         
         [HttpPost]
-        public async Task<VehicleDetails> CreateVehicle([FromBody] CreateVehicleAction action)
+        public async Task<ActionResult<VehicleDetails>> CreateVehicle([FromBody] CreateVehicleAction action)
         {
             _logger.LogInformation($"Creating vehicle with license plate {action.LicencePlate}");
             
@@ -58,7 +58,7 @@ namespace VehiclesTest.Controllers
 
             var vehicleDetails = _mapper.Map<VehicleDetails>(vehicle);
             
-            return vehicleDetails;
+            return Ok(vehicleDetails);
         }
         
         [HttpDelete("{id}")]
@@ -79,7 +79,7 @@ namespace VehiclesTest.Controllers
 
             var vehicleDetails = _mapper.Map<VehicleDetails>(vehicle);
             
-            return vehicleDetails;
+            return Ok(vehicleDetails);
         }
 
         [HttpPut("{id}")]
