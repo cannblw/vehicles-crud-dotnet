@@ -1,8 +1,9 @@
 using System;
+using VehiclesTest.Actions;
 
 namespace VehiclesTest.Dto
 {
-    public class VehicleDetails
+    public class VehicleDetails : Details
     {
         public string OrderNumber { get; set; }
 
