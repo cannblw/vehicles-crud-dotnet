@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using VehiclesCrud.Models;
+using VehiclesCrud.Domain;
 
 namespace VehiclesCrud.Database
 {

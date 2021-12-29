@@ -1,6 +1,6 @@
 using System;
 
-namespace VehiclesCrud.Models
+namespace VehiclesCrud.Domain
 {
     public class Vehicle : Entity
     {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VehiclesCrud.Models
+namespace VehiclesCrud.Domain
 {
     public class Entity
     {

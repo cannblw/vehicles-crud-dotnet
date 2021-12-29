@@ -1,6 +1,6 @@
 using AutoMapper;
 using VehiclesCrud.Details;
-using VehiclesCrud.Models;
+using VehiclesCrud.Domain;
 
 namespace VehiclesCrud.Config
 {

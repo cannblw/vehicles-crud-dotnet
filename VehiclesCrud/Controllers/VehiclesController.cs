@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using VehiclesCrud.Actions;
 using VehiclesCrud.Database;
 using VehiclesCrud.Details;
-using VehiclesCrud.Models;
+using VehiclesCrud.Domain;
 
 namespace VehiclesCrud.Controllers
 {

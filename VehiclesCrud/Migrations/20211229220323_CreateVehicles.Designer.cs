@@ -11,7 +11,7 @@ using VehiclesCrud.Database;
 namespace VehiclesCrud.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211229193007_CreateVehicles")]
+    [Migration("20211229220323_CreateVehicles")]
     partial class CreateVehicles
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,7 +19,7 @@ namespace VehiclesCrud.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.1");
 
-            modelBuilder.Entity("VehiclesCrud.Models.Vehicle", b =>
+            modelBuilder.Entity("VehiclesCrud.Domain.Vehicle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
