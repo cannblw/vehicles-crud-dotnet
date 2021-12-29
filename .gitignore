@@ -1,5 +1,3 @@
-
-   
 # Common IntelliJ Platform excludes
 
 # User specific
@@ -34,3 +32,8 @@ _UpgradeReport_Files/
 Thumbs.db
 Desktop.ini
 .DS_Store
+
+# SQLite
+database.db
+database.db-shm
+database.db-wal
