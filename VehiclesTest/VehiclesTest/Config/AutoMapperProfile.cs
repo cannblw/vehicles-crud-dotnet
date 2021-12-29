@@ -1,5 +1,5 @@
 using AutoMapper;
-using VehiclesTest.Dto;
+using VehiclesTest.Details;
 using VehiclesTest.Models;
 
 namespace VehiclesTest.Config

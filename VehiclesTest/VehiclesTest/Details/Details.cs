@@ -1,4 +1,4 @@
-namespace VehiclesTest.Actions
+namespace VehiclesTest.Details
 {
     public class Details
     {

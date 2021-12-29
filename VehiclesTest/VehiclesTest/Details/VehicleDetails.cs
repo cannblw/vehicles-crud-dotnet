@@ -1,7 +1,6 @@
 using System;
-using VehiclesTest.Actions;
 
-namespace VehiclesTest.Dto
+namespace VehiclesTest.Details
 {
     public class VehicleDetails : Details
     {

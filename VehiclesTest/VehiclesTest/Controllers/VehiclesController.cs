@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using VehiclesTest.Actions;
 using VehiclesTest.Database;
-using VehiclesTest.Dto;
+using VehiclesTest.Details;
 using VehiclesTest.Models;
 
 namespace VehiclesTest.Controllers
