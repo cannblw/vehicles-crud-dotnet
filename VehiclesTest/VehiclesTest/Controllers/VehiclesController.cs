@@ -66,7 +66,7 @@ namespace VehiclesTest.Controllers
         {
             _logger.LogInformation($"Creating vehicle with id {id.ToString()}");
 
-            var vehicle = await _context.Vehicles.FindAsync();
+            var vehicle = await _context.Vehicles.FindAsync(id);
 
             if (vehicle == null)
             {
