@@ -77,9 +77,7 @@ namespace VehiclesTest.Controllers
             
             await _context.SaveChangesAsync();
 
-            var vehicleDetails = _mapper.Map<VehicleDetails>(vehicle);
-            
-            return Ok(vehicleDetails);
+            return NoContent();
         }
 
         [HttpPut("{id}")]
