@@ -60,5 +60,21 @@ namespace VehiclesTest.Controllers
             
             return vehicleDetails;
         }
+        
+        [HttpDelete("{id}")]
+        public async Task<VehicleDetails> DeleteVehicle(int id)
+        {
+            _logger.LogInformation($"Creating vehicle with id {id.ToString()}");
+
+            var vehicle = new Vehicle { Id = id };
+            _context.Vehicles.Attach(vehicle);
+            _context.Vehicles.Remove(vehicle);
+            
+            await _context.SaveChangesAsync();
+
+            var vehicleDetails = _mapper.Map<VehicleDetails>(vehicle);
+            
+            return vehicleDetails;
+        }
     }
 }
