@@ -40,6 +40,23 @@ namespace VehiclesCrud.Controllers
             return Ok(vehicleDetails);
         }
         
+        [HttpGet("{id}")]
+        public async Task<ActionResult<VehicleDetails>> GetVehicleDetails(int id)
+        {
+            _logger.LogInformation($"Getting vehicle with it {id}");
+            
+            var vehicle = await _context.Vehicles.FindAsync(id);
+
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+            
+            var vehicleDetails = _mapper.Map<VehicleDetails>(vehicle);
+            
+            return Ok(vehicleDetails);
+        }
+        
         [HttpPost]
         public async Task<ActionResult<VehicleDetails>> CreateVehicle([FromBody] CreateVehicleAction action)
         {
