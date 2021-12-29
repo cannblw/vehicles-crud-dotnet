@@ -62,12 +62,17 @@ namespace VehiclesTest.Controllers
         }
         
         [HttpDelete("{id}")]
-        public async Task<VehicleDetails> DeleteVehicle(int id)
+        public async Task<ActionResult<VehicleDetails>> DeleteVehicle(int id)
         {
             _logger.LogInformation($"Creating vehicle with id {id.ToString()}");
 
-            var vehicle = new Vehicle { Id = id };
-            _context.Vehicles.Attach(vehicle);
+            var vehicle = await _context.Vehicles.FindAsync();
+
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+            
             _context.Vehicles.Remove(vehicle);
             
             await _context.SaveChangesAsync();
