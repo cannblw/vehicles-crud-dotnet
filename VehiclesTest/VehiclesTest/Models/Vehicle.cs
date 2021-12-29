@@ -13,9 +13,7 @@ namespace VehiclesTest.Models
         public string LicencePlate { get; set; }
         
         public DateTimeOffset DeliveryDate { get; set; }
-
-        public Vehicle() {}
-
+        
         public Vehicle(string orderNumber, string vin, string model, string licencePlate, DateTimeOffset deliveryDate)
         {
             OrderNumber = orderNumber;
