@@ -76,5 +76,30 @@ namespace VehiclesTest.Controllers
             
             return vehicleDetails;
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<VehicleDetails>> UpdateVehicle([FromBody] UpdateVehicleAction action, int id)
+        {
+            _logger.LogInformation($"Updating vehicle with id {id.ToString()}");
+
+            var vehicle = await _context.Vehicles.FindAsync(id);
+
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+
+            vehicle.Model = action.Model;
+            vehicle.Vin = action.Vin;
+            vehicle.DeliveryDate = action.DeliveryDate;
+            vehicle.LicencePlate = action.LicencePlate;
+            vehicle.OrderNumber = action.OrderNumber;
+            
+            await _context.SaveChangesAsync();
+
+            var vehicleDetails = _mapper.Map<VehicleDetails>(vehicle);
+
+            return Ok(vehicleDetails);
+        }
     }
 }
