@@ -10,8 +10,6 @@ using VehiclesCrud.Database;
 const string settingsRoot = "Settings";
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 builder.Services.AddControllers();
 
 // AutoMapper
@@ -19,20 +17,20 @@ var mapperConfiguration = new MapperConfiguration(opt => opt.AddProfile(new Auto
 IMapper mapper = mapperConfiguration.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Override conventions
 builder.Services.AddRouting(opt => opt.LowercaseUrls = true);
 
 // Configuration
 var appSettings = new AppSettings();
 var config = builder.Configuration.GetSection(settingsRoot);
 config.Bind(appSettings);
-
 builder.Services.AddSingleton(appSettings);
 
-//Database
+// Database
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlite(appSettings.Database.ConnectionString));
 
 var app = builder.Build();
