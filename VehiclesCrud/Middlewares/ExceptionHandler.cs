@@ -50,10 +50,9 @@ namespace VehiclesCrud.Middlewares
             var responseBody = new ObjectResult(new
             {
                 errorMessage = exception.Message,
-                errorMessages = new List<string> { exception.Message }
             }) { StatusCode = (int)statusCode };
             
-            var serializedBody = JsonSerializer.Serialize(responseBody);
+            var serializedBody = JsonSerializer.Serialize(responseBody.Value);
 
             await httpContext.Response.WriteAsync(serializedBody);
         }
