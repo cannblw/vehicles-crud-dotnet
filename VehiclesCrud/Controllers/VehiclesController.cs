@@ -2,12 +2,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using VehiclesCrud.Actions;
-using VehiclesCrud.Database;
 using VehiclesCrud.Details;
-using VehiclesCrud.Domain;
+using VehiclesCrud.Services;
 
 namespace VehiclesCrud.Controllers
 {
@@ -16,42 +14,36 @@ namespace VehiclesCrud.Controllers
     public class VehiclesController : ControllerBase
     {
         private readonly ILogger<VehiclesController> _logger;
-        private readonly AppDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IVehiclesService _vehiclesService;
 
         public VehiclesController(
             ILogger<VehiclesController> logger,
-            AppDbContext context,
-            IMapper mapper)
+            IMapper mapper,
+            IVehiclesService vehiclesService)
         {
             _logger = logger;
-            _context = context;
             _mapper = mapper;
+            _vehiclesService = vehiclesService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VehicleDetails>>> GetVehicles()
+        public async Task<ActionResult<IEnumerable<VehicleDetails>>> GetAllVehicles()
         {
             _logger.LogInformation("Getting vehicles");
-            
-            var vehicles = await _context.Vehicles.ToListAsync();
+
+            var vehicles = await _vehiclesService.GetAllVehicles();
             var vehicleDetails = _mapper.Map<IEnumerable<VehicleDetails>>(vehicles);
             
             return Ok(vehicleDetails);
         }
         
         [HttpGet("{id}")]
-        public async Task<ActionResult<VehicleDetails>> GetVehicleDetails(int id)
+        public async Task<ActionResult<VehicleDetails>> GetVehicle(int id)
         {
-            _logger.LogInformation($"Getting vehicle with it {id}");
-            
-            var vehicle = await _context.Vehicles.FindAsync(id);
+            _logger.LogInformation("Getting vehicle with it {Id}", id.ToString());
 
-            if (vehicle == null)
-            {
-                return NotFound();
-            }
-            
+            var vehicle = await _vehiclesService.GetVehicle(id);
             var vehicleDetails = _mapper.Map<VehicleDetails>(vehicle);
             
             return Ok(vehicleDetails);
@@ -60,17 +52,14 @@ namespace VehiclesCrud.Controllers
         [HttpPost]
         public async Task<ActionResult<VehicleDetails>> CreateVehicle([FromBody] CreateVehicleAction action)
         {
-            _logger.LogInformation($"Creating vehicle with license plate {action.LicencePlate}");
-            
-            var vehicle = new Vehicle(
+            _logger.LogInformation("Creating vehicle with license plate {LicencePlate}", action.LicencePlate);
+
+            var vehicle = await _vehiclesService.CreateVehicle(
                 action.OrderNumber,
                 action.Vin,
                 action.Model,
                 action.LicencePlate,
                 action.DeliveryDate);
-
-            _context.Vehicles.Add(vehicle);
-            await _context.SaveChangesAsync();
 
             var vehicleDetails = _mapper.Map<VehicleDetails>(vehicle);
             
@@ -80,42 +69,26 @@ namespace VehiclesCrud.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<VehicleDetails>> DeleteVehicle(int id)
         {
-            _logger.LogInformation($"Creating vehicle with id {id.ToString()}");
+            _logger.LogInformation("Deleting vehicle with id {Id}", id.ToString());
 
-            var vehicle = await _context.Vehicles.FindAsync(id);
-
-            if (vehicle == null)
-            {
-                return NotFound();
-            }
-            
-            _context.Vehicles.Remove(vehicle);
-            
-            await _context.SaveChangesAsync();
+            await _vehiclesService.DeleteVehicle(id);
 
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<VehicleDetails>> UpdateVehicle([FromBody] UpdateVehicleAction action, int id)
+        public async Task<ActionResult<VehicleDetails>> UpdateVehicle(int id, [FromBody] UpdateVehicleAction action)
         {
-            _logger.LogInformation($"Updating vehicle with id {id.ToString()}");
+            _logger.LogInformation("Updating vehicle with id {Id}", id.ToString());
 
-            var vehicle = await _context.Vehicles.FindAsync(id);
-
-            if (vehicle == null)
-            {
-                return NotFound();
-            }
-
-            vehicle.Model = action.Model;
-            vehicle.Vin = action.Vin;
-            vehicle.DeliveryDate = action.DeliveryDate;
-            vehicle.LicencePlate = action.LicencePlate;
-            vehicle.OrderNumber = action.OrderNumber;
-            
-            await _context.SaveChangesAsync();
-
+            var vehicle = await _vehiclesService.UpdateVehicle(
+                id,
+                action.OrderNumber,
+                action.Vin,
+                action.Model,
+                action.LicencePlate,
+                action.DeliveryDate);
+                
             var vehicleDetails = _mapper.Map<VehicleDetails>(vehicle);
 
             return Ok(vehicleDetails);

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VehiclesCrud.Config;
 using VehiclesCrud.Database;
+using VehiclesCrud.Services;
 
 const string settingsRoot = "Settings";
 
@@ -32,6 +33,9 @@ builder.Services.AddSingleton(appSettings);
 
 // Database
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlite(appSettings.Database.ConnectionString));
+
+// Services
+builder.Services.AddScoped<IVehiclesService, VehiclesService>();
 
 var app = builder.Build();
 
