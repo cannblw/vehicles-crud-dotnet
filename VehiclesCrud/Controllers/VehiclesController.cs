@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using VehiclesCrud.Actions;
@@ -28,6 +29,7 @@ namespace VehiclesCrud.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<VehicleDetails>>> GetAllVehicles()
         {
             _logger.LogInformation("Getting vehicles");
@@ -39,6 +41,8 @@ namespace VehiclesCrud.Controllers
         }
         
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<VehicleDetails>> GetVehicle(int id)
         {
             _logger.LogInformation("Getting vehicle with it {Id}", id.ToString());
@@ -50,6 +54,7 @@ namespace VehiclesCrud.Controllers
         }
         
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<VehicleDetails>> CreateVehicle([FromBody] CreateVehicleAction action)
         {
             _logger.LogInformation("Creating vehicle with license plate {LicencePlate}", action.LicencePlate);
@@ -67,6 +72,8 @@ namespace VehiclesCrud.Controllers
         }
         
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<VehicleDetails>> DeleteVehicle(int id)
         {
             _logger.LogInformation("Deleting vehicle with id {Id}", id.ToString());
@@ -77,6 +84,8 @@ namespace VehiclesCrud.Controllers
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<VehicleDetails>> UpdateVehicle(int id, [FromBody] UpdateVehicleAction action)
         {
             _logger.LogInformation("Updating vehicle with id {Id}", id.ToString());
