@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VehiclesCrud.Config;
 using VehiclesCrud.Database;
+using VehiclesCrud.Middlewares;
 using VehiclesCrud.Services;
 
 const string settingsRoot = "Settings";
@@ -49,6 +50,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ExceptionHandler>();
 
 app.MapControllers();
 
